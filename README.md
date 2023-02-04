@@ -21,4 +21,4 @@ Using the microcontroller with 16x2 LCD display, displaying static data.
 <br>
 
 ## Experiment 10
-Analog to Digital conversion and diplaying inputs on the lcd screen.
+Analog to Digital conversion and diplaying inputs on the LCD Display.
