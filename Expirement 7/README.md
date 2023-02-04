@@ -1,6 +1,6 @@
-🔗 | [Expirement 7](exp7.pdf)   
-🔗 | [To-Do](todo.pdf)  
-🔗 | [Report](report.pdf)       
+🔗 | [Expirement 7](asset/exp7.pdf)   
+🔗 | [To-Do](asset/todo.pdf)  
+🔗 | [Report](asset/report.pdf)       
 ## To-do:   
 Write a C program that changes the color of the onboard LEDs by using the two onboard 
 push button keys. When the board is turned on, the onboard LEDs light on in the following 
