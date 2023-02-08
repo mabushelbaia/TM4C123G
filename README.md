@@ -104,24 +104,18 @@ TIMER1-> CFG = 0x0; // select 32-bit configuration option
 ```C
 TIMER1->TAPR = 250-1;       // TimerA prescaler value
 
-"""
-The prescaler values is used to scaled down the frequency of the timer module,
-originaly the timer module has a frequence of 16MHz, the prescaler can scale it down by 1 - 255,
-so the timer module will have a frequency of 16MHz/250 = 64KHz
-"""
 ```
+The prescaler values is used to scaled down the frequency of the timer module, originaly the timer module has a frequence of 16MHz, the prescaler can scale it down by 1 - 255, so the timer module will have a frequency of 16MHz/250 = 64KHz.
+
 
 ```c
 TIMER1->TAMR = 0x02;        // Periodic count down mode
 TIMER1->TAILR = 64000-1;    // Count down value
-"""
-هبدة:
-The counter counts down from the value in the TAILR register to 0 at each clock cycle, 
-and then it reloads the value in the TAILR register and continues to count down. 
-When the counter reaches 0,  it generates a time-out interrupt and reloads the value in the TAILR register.
-Since we reduced the clock to 64KHz, the counter will count down from 64000 to 0 in 1 second.
-"""
 ```
+هبدة:
+The counter counts down from the value in the TAILR register to 0 at each clock cycle, and then it reloads the value in the TAILR register and continues to count down. When the counter reaches 0,  it generates a time-out interrupt and reloads the value in the TAILR register. Since we reduced the clock to 64KHz, the counter will count down from 64000 to 0 in 1 second.
+
+
 
 ```c
 """ I Don't Understand this """
