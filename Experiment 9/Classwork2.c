@@ -33,37 +33,38 @@ void LCD4bits_Data(unsigned char);                 // Write a character
 int main(void)
 {
     char *str1 = "Mohammad"; // Write any string you want to display on the first row of LCD
-    LCD4bits_Init();            // Initialization of LCD
-    LCD4bits_Cmd(0x01);         // Clear the display
-    LCD4bits_Cmd(0x80);         // Force the cursor to beginning of 1st line
-    delayMs(500);               // delay 500ms for LCD (MCU is faster than LCD)
-    LCD_WriteString(str1);      // Write the string on LCD
-    delayMs(500);               // Delay 500 ms to let the LCD diplays the data
-    while(True);                // Infinite loop
+    LCD4bits_Init();         // Initialization of LCD
+    LCD4bits_Cmd(0x01);      // Clear the display
+    LCD4bits_Cmd(0x80);      // Force the cursor to beginning of 1st line
+    delayMs(500);            // delay 500ms for LCD (MCU is faster than LCD)
+    LCD_WriteString(str1);   // Write the string on LCD
+    delayMs(500);            // Delay 500 ms to let the LCD diplays the data
+    while (True)
+        ; // Infinite loop
 }
 void LCD4bits_Init(void)
 {
-    SYSCTL->RCGCGPIO |= 0x20;   // enable clock to GPIOF
-    GPIOF->LOCK = 0x4C4F434B;   // unlockGPIOCR register
-    GPIOF->CR = 0x01;           // ENABLE GPIOPUR COMMIT
+    SYSCTL->RCGCGPIO |= 0x20; // enable clock to GPIOF
+    GPIOF->LOCK = 0x4C4F434B; // unlockGPIOCR register
+    GPIOF->CR = 0x01;         // ENABLE GPIOPUR COMMIT
     SYSCTL->RCGCGPIO |= 0x02; // enable clock for PORTB
     GPIOF->PUR = SWITCHES;
     GPIOF->DIR = DIR_ALL;
     GPIOF->DEN = DEN_ALL;
-    GPIOF->IS  &= ~SWITCHES;  // make bit 4, 0 edge sensitive
-    GPIOF->IBE &= ~SWITCHES;  // trigger is controlled by IEV
-    GPIOF->IEV &= ~SWITCHES;  // falling edge trigger
-    GPIOF->ICR |=  SWITCHES;  // clear any prior interrupt
-    GPIOF->IM  |=  SWITCHES;  // unmask interrupt
-    NVIC->IP[30] = 3 << 5; 	  // set interrupt priority to 3
-    NVIC->ISER[0] |= (1<<30); // enable IRQ30 (D30 of ISER[0])
-    delayMs(10);              // delay 10 ms for enable the clock of PORTB
-    LCD->DIR = 0xFF;          // let PORTB as output pins
-    LCD->DEN = 0xFF;          // enable PORTB digital IO pins
-    LCD4bits_Cmd(0x28);       // 2 lines and 5x7 character (4-bit data, D4 to D7)
-    LCD4bits_Cmd(0x06);       // Automatic Increment cursor (shift cursor to right)
-    LCD4bits_Cmd(0x01);       // Clear display screen
-    LCD4bits_Cmd(0x0F);       // Display on, cursor blinking
+    GPIOF->IS &= ~SWITCHES;     // make bit 4, 0 edge sensitive
+    GPIOF->IBE &= ~SWITCHES;    // trigger is controlled by IEV
+    GPIOF->IEV &= ~SWITCHES;    // falling edge trigger
+    GPIOF->ICR |= SWITCHES;     // clear any prior interrupt
+    GPIOF->IM |= SWITCHES;      // unmask interrupt
+    NVIC->IP[30] = 3 << 5;      // set interrupt priority to 3
+    NVIC->ISER[0] |= (1 << 30); // enable IRQ30 (D30 of ISER[0])
+    delayMs(10);                // delay 10 ms for enable the clock of PORTB
+    LCD->DIR = 0xFF;            // let PORTB as output pins
+    LCD->DEN = 0xFF;            // enable PORTB digital IO pins
+    LCD4bits_Cmd(0x28);         // 2 lines and 5x7 character (4-bit data, D4 to D7)
+    LCD4bits_Cmd(0x06);         // Automatic Increment cursor (shift cursor to right)
+    LCD4bits_Cmd(0x01);         // Clear display screen
+    LCD4bits_Cmd(0x0F);         // Display on, cursor blinking
 }
 void LCD_Write4bits(unsigned char data, unsigned char control)
 {
@@ -116,29 +117,35 @@ void delayUs(int n)
         }
 }
 
-void GPIOF_Handler(void) {
-    if(GPIOF->MIS & SW1) { // SW1 is pressed
+void GPIOF_Handler(void)
+{
+    if (GPIOF->MIS & SW1)
+    { // SW1 is pressed
         unsigned char displacment = 0;
-        while(GPOIF->MIS & SW2) {
-            LCD4bits_Cmd(0x01);         // Clear the display
-            cursor = cursor + (((displacment++) + 9)%16);
-            LCD4bits_Cmd(cursor);         // Force the cursor to beginning of 1st line
-            delayMs(500);               // delay 500ms for LCD (MCU is faster than LCD)
-            LCD_WriteString(str1);      // Write the string on LCD
-            delayMs(500);               // Delay 500 ms to let the LCD diplays the data
+        while (GPOIF->MIS & SW2)
+        {
+            LCD4bits_Cmd(0x01); // Clear the display
+            cursor = cursor + (((displacment++) + 9) % 16);
+            LCD4bits_Cmd(cursor);  // Force the cursor to beginning of 1st line
+            delayMs(500);          // delay 500ms for LCD (MCU is faster than LCD)
+            LCD_WriteString(str1); // Write the string on LCD
+            delayMs(500);          // Delay 500 ms to let the LCD diplays the data
         }
         GPIOF->ICR |= 0x10;
     }
-    else if (GPIOF->MIS & SW2) { // SW2 is 
+    else if (GPIOF->MIS & SW2)
+    { // SW2 is
         unsigned char displacment = 0;
-        while(GPOIF->MIS & SW1) {
-            LCD4bits_Cmd(0x01);         // Clear the display
-            cursor = cursor - (((displacment++) + 9)%16);
-            if (cursor < 0x80) cursor = 0x9F;
-            LCD4bits_Cmd(cursor);         // Force the cursor to beginning of 1st line
-            delayMs(500);               // delay 500ms for LCD (MCU is faster than LCD)
-            LCD_WriteString(str1);      // Write the string on LCD
-            delayMs(500);               // Delay 500 ms to let the LCD diplays the data
+        while (GPOIF->MIS & SW1)
+        {
+            LCD4bits_Cmd(0x01); // Clear the display
+            cursor = cursor - (((displacment++) + 9) % 16);
+            if (cursor < 0x80)
+                cursor = 0x9F;
+            LCD4bits_Cmd(cursor);  // Force the cursor to beginning of 1st line
+            delayMs(500);          // delay 500ms for LCD (MCU is faster than LCD)
+            LCD_WriteString(str1); // Write the string on LCD
+            delayMs(500);          // Delay 500 ms to let the LCD diplays the data
         }
         GPIOF->ICR |= 0x01;
     }
