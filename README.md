@@ -105,7 +105,7 @@ TIMER1-> CFG = 0x0; // select 32-bit configuration option
 TIMER1->TAPR = 250-1;       // TimerA prescaler value
 
 ```
-The prescaler values is used to scaled down the frequency of the timer module, originaly the timer module has a frequence of 16MHz, the prescaler can scale it down by 1 - 255, so the timer module will have a frequency of 16MHz/250 = 64KHz.
+The prescaler values is used to scaled down the frequency of the timer module, originaly the timer module has a frequency of 16MHz, the prescaler can scale it down by 1 - 255, so the timer module will have a frequency of 16MHz/250 = 64KHz.
 
 
 ```c
