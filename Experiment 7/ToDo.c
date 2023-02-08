@@ -10,7 +10,9 @@
 #define WHITE RED + GREEN + BLUE
 #define SW2 0x01
 #define SW1 0x10
-#define ENABLE_ALL 0x0E
+#define SWITCHES (SW1 | SW2)
+#define ENABLE_ALL 0x1F
+#define DIR_ALL 0x0E
 #define True 1
 #define False 0
 #define DELAY 900000
