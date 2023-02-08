@@ -27,7 +27,7 @@ int main(void)
     SYSCTL->RCGCTIMER |= 0x3F; // enable clock to all timers
     volatile unsigned long arr[] = {TIMER0, TIMER1, TIMER2};
     int delays[] = {1, 5, 10};
-    int for (int i = 0; i < 6; i++)
+    int for (int i = 0; i < 3; i++)
     {
         arr[i]->CTL = 0;     // disable timer ouput
         arr[i]->CFG = 0x00;  // 32-bit mode
