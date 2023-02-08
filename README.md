@@ -142,7 +142,6 @@ NVIC->ISER[0] |= (1<<21);   // enable IRQ21
 | Timer5A | 53  | Timer5B | 54  |
 
 ## Handler
-
 ```c
 TIMER1A_Handler() {
     if(TIMER1->MIS & 0x1) {
