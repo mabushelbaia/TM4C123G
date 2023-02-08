@@ -119,7 +119,7 @@ TIMER1->TAILR = 64000-1;    // Count down value
 The counter counts down from the value in the TAILR register to 0 at each clock cycle, 
 and then it reloads the value in the TAILR register and continues to count down. 
 When the counter reaches 0,  it generates a time-out interrupt and reloads the value in the TAILR register.
-Since we reduced the clock to 64KHz, the counter will count down from 64000 to 0 in 1 second. 64000/64000 = 1 second
+Since we reduced the clock to 64KHz, the counter will count down from 64000 to 0 in 1 second.
 """
 ```
 
