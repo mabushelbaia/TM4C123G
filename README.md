@@ -117,7 +117,6 @@ The counter counts down from the value in the TAILR register to 0 at each clock 
 
 
 ```c
-""" I Don't Understand this """
 TIMER1->ICR = 0x1;          // timeout flag bit clears
 TIMER1->IMR |=(1<<0);       // enables time-out intrpt mask
 TIMER1->CTL |= 0x01;        // enable timer
