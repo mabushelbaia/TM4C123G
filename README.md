@@ -1,7 +1,7 @@
-# TM4C123GH6PM Microcontroller
+# **TM4C123GH6PM Microcontroller**
 
 🔗 | [Datasheet](asset/datasheet.pdf)  
-🔗 | [Experiments](Experiments.md)
+🔗 | [Experiments](Experiments.md)  
 
 # Useful Definetions
 
@@ -17,7 +17,7 @@ void delay( volatile unsigned long ulLoop ){
 }
 ```
 
-## Enable GPIOF
+## Enable **GPIOF**
 
 ```c
 SYSCTL->RCGCGPIO |= 0x20;   // enable clock to GPIOF
@@ -39,10 +39,11 @@ GPIOF->DEN = DEN_ALL;
 ```c
 #define SW1 0x10
 #define SW2 0x01
-GPIOF->PUR = SW1 + SW2;
+#define SWITCHES = SW1 + SW2
+GPIOF->PUR = SWITCHES;
 ```
 
-## LED Colors
+## LED **Colors**
 
 ```c
 #define RED 0x02
@@ -59,7 +60,6 @@ GPIOF->PUR = SW1 + SW2;
 ## Setup
 
 ```c
-#define SWITCHES = SW1 + SW2
 GPIOF->IS  &= ~SWITCHES;  // make bit 4, 0 edge sensitive
 GPIOF->IBE &= ~SWITCHES;  // trigger is controlled by IEV
 GPIOF->IEV &= ~SWITCHES;  // falling edge trigger
@@ -84,15 +84,69 @@ void GPIOF_Handler(void) {
 }
 ```
 
-# Timer Interrupts
+# Timer and Timer Interrupts
 
 ## Setup
 
-```c
+TM4C123G microcontroller has two timer blocks, TimerA and TimerB, TimerA has six 16/32 bits GPTM, and TimerB has six 32/64 bits GPTM.
+RCGCTIMER Register is used to enable the clock to the timer blocks. The timer blocks are disabled by default. The timer blocks are enabled by writing a 1 to the appropriate bit in the RCGCTIMER register.
 
+```c
+SYSCTL->RCGCTIMER |= 0x3F;  // enable clock to all timers
+TIMER1 -> CTL = 0;          // disable timer ouput
 ```
+
+```c
+TIMER1-> CFG = 0x4; // select 16-bit configuration option
+TIMER1-> CFG = 0x0; // select 32-bit configuration option
+```
+
+```C
+TIMER1->TAPR = 250-1;       // TimerA prescaler value
+
+"""
+The prescaler values is used to scaled down the frequency of the timer module, originaly the timer module has a frequence of 16MHz, the prescaler can scale it down by 1 - 255, so the timer module will have a frequency of 16MHz/250 = 64KHz
+"""
+```
+
+```c
+TIMER1->TAMR = 0x02;        // Periodic count down mode
+TIMER1->TAILR = 64000-1;    // Count down value
+"""
+هبدة:
+The counter counts down from the value in the TAILR register to 0 at each clock cycle, and then it reloads the value in the TAILR register and continues to count down. When the counter reaches 0, it generates a time-out interrupt and reloads the value in the TAILR register.
+Since we reduced the clock to 64KHz, the counter will count down from 64000 to 0 in 1 second. 64000/64000 = 1 second
+"""
+```
+
+```c
+""" I Don't Understand this """
+TIMER1->ICR = 0x1;          // timeout flag bit clears
+TIMER1->IMR |=(1<<0);       // enables time-out intrpt mask
+TIMER1->CTL |= 0x01;        // enable timer
+```
+```c
+NVIC->ISER[0] |= (1<<21);   // enable IRQ21
+```
+| TimerA | IRQ  | TimerB | IRQ  |
+| :-------: | :--: | :-------: | :--: |
+| Timer0A | 19  | Timer0B | 20  |
+| Timer1A | 21  | Timer1B | 22  |
+| Timer2A | 23  | Timer2B | 24  |
+| Timer3A | 35  | Timer3B | 36  |
+| Timer4A | 37  | Timer4B | 38  |
+| Timer5A | 53  | Timer5B | 54  |
+
 ## Handler
 
 ```c
-
+TIMER1A_Handler() {
+    if(TIMER1->MIS & 0x1) {
+        // do something
+        TIMER1->ICR = 0x1;  // timeout flag bit clears
+    }
+}
 ```
+**NOTE**:   
+In this example, we used TIMER1 but we can use any other timer, for example TIMER0, TIMER2, TIMER3, TIMER4, TIMER5
+You can see an example of using multiple timers [here](Experiment%208/Classwork3.c).
