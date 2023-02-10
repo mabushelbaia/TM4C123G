@@ -9,7 +9,7 @@
 #define False 0
 #define DELAY 900000
 int sequence_flag = 0;
-unsigned int sequence[] = {RED, BLUE, GREEN};
+unsigned int arr[] = {RED, BLUE, GREEN};
 int i = 0;
 void delay(volatile unsigned long i)
 {

@@ -15,17 +15,17 @@ void LCD4bits_Data(unsigned char);                 // Write a character
 int main(void)
 {
     char *str1 = "Mohammad"; // Write any string you want to display on the first row of LCD "My name doesn't fit in 16 characters"
-    char *str2 = "1200198";     // Write any string you want to display on the second row of LCD
-    LCD4bits_Init();            // Initialization of LCD
-    LCD4bits_Cmd(0x01);         // Clear the display
-    LCD4bits_Cmd(0x80);         // Force the cursor to beginning of 1st line
-    delayMs(500);               // delay 500ms for LCD (MCU is faster than LCD)
-    LCD_WriteString(str1);      // Write the string on LCD
-    delayMs(500);               // Delay 500 ms to let the LCD diplays the data
-    LCD4bits_Cmd(0xC0);         // Force the cursor to beginning of 2nd line
-    delayMs(500);               // delay 500ms for LCD (MCU is faster than LCD)
-    LCD_WriteString(str2);      // Write the string on LCD
-    delayMs(500);               // Delay 500 ms to let the LCD diplays the data
+    char *str2 = "1200198";  // Write any string you want to display on the second row of LCD
+    LCD4bits_Init();         // Initialization of LCD
+    LCD4bits_Cmd(0x01);      // Clear the display
+    LCD4bits_Cmd(0x80);      // Force the cursor to beginning of 1st line
+    delayMs(500);            // delay 500ms for LCD (MCU is faster than LCD)
+    LCD_WriteString(str1);   // Write the string on LCD
+    delayMs(500);            // Delay 500 ms to let the LCD diplays the data
+    LCD4bits_Cmd(0xC0);      // Force the cursor to beginning of 2nd line
+    delayMs(500);            // delay 500ms for LCD (MCU is faster than LCD)
+    LCD_WriteString(str2);   // Write the string on LCD
+    delayMs(500);            // Delay 500 ms to let the LCD diplays the data
 }
 void LCD4bits_Init(void)
 {
