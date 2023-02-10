@@ -36,7 +36,7 @@ int main(void) {
     while (True);
 }
 
-TIMER1A_Handler() {
+void TIMER1A_Handler() {
     if(TIMER1->MIS & 0x1) {
         GPIOF->DATA ^= GREEN;
         TIMER1->ICR = 0x1;  // timeout flag bit clears
