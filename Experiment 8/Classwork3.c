@@ -24,9 +24,8 @@ int main(void)
     GPIOF->CR = 0x01;
     GPIOF->DIR = DIR_ALL;
     GPIOF->DEN = DEN_ALL;
-    SYSCTL->RCGCTIMER |= 0x3F; // enable clock to all timers
+    SYSCTL->RCGCTIMER |= (1<<0) | (1<<1) | (1<<2); // enable clock to all timers
     // create an array of pointers TIMER0, TIMER1. TIMER2 
-    int delays[] = {1, 5, 10};
     TIMER0->CTL = 0;     // disable timer ouput
     TIMER0->CFG = 0x00;  // 32-bit mode
     TIMER0->TAMR = 0x02; // periodic mode
@@ -35,6 +34,8 @@ int main(void)
     TIMER0->IMR |= (1 << 0);              // enables time-out intrpt mask
     TIMER0->CTL |= 0x01;                  // enable timer
     NVIC->ISER[0] |= (1 << (19)); // enable IRQ21
+
+    
     TIMER1->CTL = 0;     // disable timer ouput
     TIMER1->CFG = 0x00;  // 32-bit mode
     TIMER1->TAMR = 0x02; // periodic mode
@@ -43,6 +44,8 @@ int main(void)
     TIMER1->IMR |= (1 << 0);              // enables time-out intrpt mask
     TIMER1->CTL |= 0x01;                  // enable timer
     NVIC->ISER[0] |= (1 << (21)); // enable IRQ21
+
+    
     TIMER2->CTL = 0;     // disable timer ouput
     TIMER2->CFG = 0x00;  // 32-bit mode
     TIMER2->TAMR = 0x02; // periodic mode
