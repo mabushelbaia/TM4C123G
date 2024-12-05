@@ -1,5 +1,6 @@
 // Program 1
 #include "TM4C123GH6PM.h"
+
 #define OFF 0x00
 #define RED 0x02
 #define BLUE 0x04
@@ -8,14 +9,17 @@
 #define MAGENTA BLUE + RED
 #define CYAN GREEN + BLUE
 #define WHITE RED + GREEN + BLUE
+
+
 #define SW2 0x01
 #define SW1 0x10
 #define SWITCHES (SW1 | SW2)
+
 #define DEN_ALL 0x1F
 #define DIR_ALL 0x0E
+
 #define True 1
 #define False 0
-#define DELAY 900000
 
 int main(void)
 {
@@ -25,7 +29,8 @@ int main(void)
     GPIOF->DIR = DIR_ALL;
     GPIOF->DEN = DEN_ALL;
     SYSCTL->RCGCTIMER |= (1<<0) | (1<<1) | (1<<2); // enable clock to all timers
-    // create an array of pointers TIMER0, TIMER1. TIMER2 
+
+    
     TIMER0->CTL = 0;     // disable timer ouput
     TIMER0->CFG = 0x00;  // 32-bit mode
     TIMER0->TAMR = 0x02; // periodic mode
